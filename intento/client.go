@@ -98,15 +98,15 @@ func (c *Client) AvailableLanguages(ctx context.Context) ([]Language, error) {
 	return languages, nil
 }
 
-type SmartRoute struct {
+type SmartRouting struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }
 
-// SmartRouting returns the list of available smart routing.
-func (c *Client) SmartRouting(ctx context.Context) ([]SmartRoute, error) {
+// SmartRoutingList returns the list of available smart routing.
+func (c *Client) SmartRoutingList(ctx context.Context) ([]SmartRouting, error) {
 	var response struct {
-		Routing []SmartRoute `json:"routing"`
+		Routing []SmartRouting `json:"routing"`
 	}
 
 	err := c.apiGetRequest(ctx, "https://api.inten.to/ai/text/translate/routing", &response)

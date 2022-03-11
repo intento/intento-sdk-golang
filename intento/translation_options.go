@@ -35,8 +35,17 @@ func TranslationWithProvider(providerID string) TranslationOption {
 	})
 }
 
-// TranslationWithRouting sets a routing.
-func TranslationWithRouting(routing string) TranslationOption {
+// TranslationWithSmartRouting sets a smart routing.
+//
+// The publicly available smart routing feature routes user's translation
+// requests to the best MT provider. Intento selects the MT model for the text
+// and language pair based on the following information:
+//
+// - apriori benchmark on the standard dataset
+// - provider usage statistics
+//
+// Besides publicly available schemes, a user can have custom routing schemes.
+func TranslationWithSmartRouting(routing string) TranslationOption {
 	return newFuncTranslationOption(func(o *translationOptions) {
 		o.Service.Routing = routing
 	})
