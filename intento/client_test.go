@@ -2,6 +2,7 @@ package intento_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -85,6 +86,27 @@ func ExampleClient_Translate_allOptions() {
 
 	// Output:
 	// ¡Hola mundo!
+}
+
+func ExampleClient_Translate_errorsHandling() {
+	ctx := context.Background()
+
+	client := intento.New("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
+	_, err := client.Translate(ctx, text, "en", "es")
+	if err != nil {
+		var authKeyIsMissingError *intento.AuthKeyIsMissingError
+
+		if errors.As(err, &authKeyIsMissingError) {
+			fmt.Println("Please update your authorization key!")
+			return
+		}
+
+		log.Fatalf("translate: %v", err)
+	}
+
+	// Output:
+	// Please update your authorization key!
 }
 
 func ExampleClient_AvailableProviders() {
