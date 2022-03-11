@@ -72,7 +72,7 @@ type Provider struct {
 func (c *Client) AvailableProviders(ctx context.Context) ([]Provider, error) {
 	var providers []Provider
 
-	err := c.apiGetRequest(ctx, "/ai/text/translate", &providers)
+	err := c.apiGetRequest(ctx, "https://syncwrapper.inten.to/ai/text/translate", &providers)
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,7 @@ func (c *Client) Translate(
 
 	var result TranslationResult
 
-	err := c.apiPostRequest(ctx, "/ai/text/translate", &params, &result)
+	err := c.apiPostRequest(ctx, "https://syncwrapper.inten.to/ai/text/translate", &params, &result)
 	if err != nil {
 		return TranslationResult{}, err
 	}
@@ -128,9 +128,7 @@ func (c *Client) Translate(
 }
 
 func (c *Client) apiGetRequest(ctx context.Context, url string, result interface{}) error {
-	methodURL := c.clientOptions.apiServerURL + url
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, methodURL, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return fmt.Errorf("create http request: %w", err)
 	}
@@ -144,9 +142,7 @@ func (c *Client) apiPostRequest(ctx context.Context, url string, params interfac
 		return fmt.Errorf("marshal json: %w", err)
 	}
 
-	methodURL := c.clientOptions.apiServerURL + url
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, methodURL, bytes.NewReader(requestBody))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(requestBody))
 	if err != nil {
 		return fmt.Errorf("create http request: %w", err)
 	}

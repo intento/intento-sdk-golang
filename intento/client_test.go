@@ -50,13 +50,10 @@ func ExampleClient_Translate_allOptions() {
 		log.Printf(format, args...)
 	}
 
-	serverURL := "https://syncwrapper.inten.to"
-
 	client := intento.New(
 		apiKey,
 		intento.ClientWithHttpClient(httpClient),
 		intento.ClientWithLogger(logger),
-		intento.ClientWithServerURL(serverURL),
 	)
 
 	providerID := "ai.text.translate.tencent.machine_translation_api"
@@ -129,15 +126,13 @@ func TestClient_AvailableProviders(t *testing.T) {
 	}
 
 	const (
-		mockApiKey    = "api_key_1"
-		mockServerURL = "https://example.com"
+		mockApiKey = "api_key_1"
 	)
 
 	client := intento.New(
 		mockApiKey,
 		intento.ClientWithHttpClient(mockHttpClient),
 		intento.ClientWithLogger(mockLogger),
-		intento.ClientWithServerURL(mockServerURL),
 	)
 
 	providers, err := client.AvailableProviders(ctx)

@@ -20,13 +20,6 @@ func ClientWithLogger(logger Logger) ClientOption {
 	})
 }
 
-// ClientWithServerURL sets server url.
-func ClientWithServerURL(serverURL string) ClientOption {
-	return newFuncClientOption(func(o *clientOptions) {
-		o.apiServerURL = serverURL
-	})
-}
-
 // ClientOption configures how we set up the connection.
 type ClientOption interface {
 	apply(*clientOptions)
@@ -34,16 +27,14 @@ type ClientOption interface {
 
 // clientOptions configure a Client.
 type clientOptions struct {
-	httpClient   HttpClient
-	logger       Logger
-	apiServerURL string
+	httpClient HttpClient
+	logger     Logger
 }
 
 func defaultClientOptions() clientOptions {
 	return clientOptions{
-		httpClient:   http.DefaultClient,
-		logger:       func(ctx context.Context, format string, args ...interface{}) { log.Printf(format, args...) },
-		apiServerURL: "https://syncwrapper.inten.to", // "https://api.inten.to"
+		httpClient: http.DefaultClient,
+		logger:     func(ctx context.Context, format string, args ...interface{}) { log.Printf(format, args...) },
 	}
 }
 
