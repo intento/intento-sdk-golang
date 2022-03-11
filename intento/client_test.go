@@ -23,7 +23,7 @@ var text = []string{
 	"Hello World!",
 }
 
-func ExampleClient_Translate_noOption() {
+func ExampleClient_Translate_noOptions() {
 	ctx := context.Background()
 
 	client := intento.New(apiKey)
@@ -94,7 +94,7 @@ func ExampleClient_AvailableProviders() {
 
 	providers, err := client.AvailableProviders(ctx)
 	if err != nil {
-		log.Fatalf("translate: %v", err)
+		log.Fatalf("get available providers: %v", err)
 	}
 
 	var providerIDs []string
@@ -106,8 +106,10 @@ func ExampleClient_AvailableProviders() {
 	sort.Strings(providerIDs)
 
 	for _, providerID := range providerIDs {
-		fmt.Println(providerID)
+		log.Println(providerID)
 	}
+
+	// Output:
 }
 
 func ExampleClient_AvailableLanguages() {
