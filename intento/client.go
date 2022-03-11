@@ -80,6 +80,43 @@ func (c *Client) AvailableProviders(ctx context.Context) ([]Provider, error) {
 	return providers, nil
 }
 
+type Language struct {
+	Direction   string `json:"direction"`
+	IntentoCode string `json:"intento_code"`
+	ISOName     string `json:"iso_name"`
+}
+
+// AvailableLanguages returns the list of available languages.
+func (c *Client) AvailableLanguages(ctx context.Context) ([]Language, error) {
+	var languages []Language
+
+	err := c.apiGetRequest(ctx, "https://syncwrapper.inten.to/ai/text/translate/languages", &languages)
+	if err != nil {
+		return nil, err
+	}
+
+	return languages, nil
+}
+
+type SmartRoute struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
+// SmartRouting returns the list of available smart routing.
+func (c *Client) SmartRouting(ctx context.Context) ([]SmartRoute, error) {
+	var response struct {
+		Routing []SmartRoute `json:"routing"`
+	}
+
+	err := c.apiGetRequest(ctx, "https://api.inten.to/ai/text/translate/routing", &response)
+	if err != nil {
+		return nil, err
+	}
+
+	return response.Routing, nil
+}
+
 const AutoDetectSourceLanguage = ""
 
 // TranslationResult describes a result of translation.

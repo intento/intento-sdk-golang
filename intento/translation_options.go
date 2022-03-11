@@ -35,6 +35,13 @@ func TranslationWithProvider(providerID string) TranslationOption {
 	})
 }
 
+// TranslationWithRouting sets a routing.
+func TranslationWithRouting(routing string) TranslationOption {
+	return newFuncTranslationOption(func(o *translationOptions) {
+		o.Service.Routing = routing
+	})
+}
+
 // TranslationWithCache sets the rules for using the TM-cache.
 //
 // The Intento MT Cache feature enables you to cache previously translated
@@ -125,6 +132,7 @@ type translationOptions struct {
 		Async    bool   `json:"async,omitempty"`
 		Trace    bool   `json:"trace,omitempty"`
 		Provider string `json:"provider,omitempty"`
+		Routing  string `json:"routing,omitempty"`
 		Cache    struct {
 			Apply  bool `json:"apply,omitempty"`
 			Update bool `json:"update,omitempty"`

@@ -66,6 +66,7 @@ func ExampleClient_Translate_allOptions() {
 		intento.TranslationWithSourceTextFormat(intento.FormatHTML),
 		intento.TranslationWithTrace(),
 		intento.TranslationWithProvider(providerID),
+		intento.TranslationWithRouting("best"),
 		intento.TranslationWithCache(true, true),
 		intento.TranslationWithNoTranslateProtection(
 			`<span class="notranslate">`,
@@ -107,6 +108,56 @@ func ExampleClient_AvailableProviders() {
 	for _, providerID := range providerIDs {
 		fmt.Println(providerID)
 	}
+}
+
+func ExampleClient_AvailableLanguages() {
+	ctx := context.Background()
+
+	client := intento.New(apiKey)
+
+	languages, err := client.AvailableLanguages(ctx)
+	if err != nil {
+		log.Fatalf("get available languages: %v", err)
+	}
+
+	var languageCodes []string
+
+	for _, language := range languages {
+		languageCodes = append(languageCodes, fmt.Sprintf("%-7s - %s", language.IntentoCode, language.ISOName))
+	}
+
+	sort.Strings(languageCodes)
+
+	for _, languageCode := range languageCodes {
+		log.Println(languageCode)
+	}
+
+	// Output:
+}
+
+func ExampleClient_SmartRouting() {
+	ctx := context.Background()
+
+	client := intento.New(apiKey)
+
+	smartRoutes, err := client.SmartRouting(ctx)
+	if err != nil {
+		log.Fatalf("get smart routing: %v", err)
+	}
+
+	var routes []string
+
+	for _, smartRoute := range smartRoutes {
+		routes = append(routes, fmt.Sprintf("%s - %s", smartRoute.Name, smartRoute.Description))
+	}
+
+	sort.Strings(routes)
+
+	for _, route := range routes {
+		log.Println(route)
+	}
+
+	// Output:
 }
 
 func TestClient_AvailableProviders(t *testing.T) {
